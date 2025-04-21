@@ -1,0 +1,10 @@
+services:
+  nextjs-prod:
+    build:
+      context: ../..
+      dockerfile: docker/prod/Dockerfile
+    ports:
+      - "80:80"
+    env_file:
+      - .env
+    command: npm run start 
