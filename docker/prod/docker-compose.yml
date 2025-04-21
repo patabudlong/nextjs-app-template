@@ -1,5 +1,5 @@
 services:
-  prod:
+  nextjs-prod:
     build:
       context: ../..
       dockerfile: docker/prod/Dockerfile

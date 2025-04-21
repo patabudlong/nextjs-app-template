@@ -1,5 +1,5 @@
 services:
-  dev:
+  nextjs-dev:
     build:
       context: ../..
       dockerfile: docker/dev/Dockerfile
