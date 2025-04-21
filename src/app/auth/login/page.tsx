@@ -45,8 +45,8 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-cyan-400 via-blue-500 to-blue-800">
-      <div className="max-w-md w-full space-y-8 p-8 bg-white/20 backdrop-blur-sm rounded-2xl shadow-lg">
+    <div className="min-h-screen flex items-center justify-center bg-white">
+      <div className="max-w-md w-full space-y-8 p-8 rounded-2xl shadow-lg bg-gradient-to-b from-cyan-400 via-blue-500 to-blue-800">
         <div>
           <h2 className="mt-6 text-center text-3xl font-bold text-white">
             Welcome Back
@@ -111,16 +111,6 @@ export default function Login() {
 
           <div className="text-center text-white">
             <p>Don't have an account? <a href="#" className="text-orange-400 hover:text-orange-300">Sign Up</a></p>
-          </div>
-
-          <div>
-            <button
-              type="button"
-              className="w-full flex items-center justify-center py-3 px-4 rounded-xl text-white bg-white/10 hover:bg-white/20 backdrop-blur-sm"
-            >
-              <span className="mr-2">🔒</span>
-              Sign in with Touch ID
-            </button>
           </div>
 
           <div className="text-center text-white/60 text-sm">
