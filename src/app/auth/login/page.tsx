@@ -45,49 +45,57 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow-md">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-cyan-400 via-blue-500 to-blue-800">
+      <div className="max-w-md w-full space-y-8 p-8 bg-white/20 backdrop-blur-sm rounded-2xl shadow-lg">
         <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Sign in to your account
+          <h2 className="mt-6 text-center text-3xl font-bold text-white">
+            Welcome Back
           </h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm space-y-4">
+          <div className="rounded-md space-y-4">
             <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-700">
-                Username
-              </label>
               <input
                 id="username"
                 name="username"
                 type="text"
                 required
-                className="mt-1 appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Enter your username"
+                className="appearance-none rounded-xl relative block w-full px-4 py-3 bg-white/10 border-0 placeholder-gray-200 text-white focus:outline-none focus:ring-2 focus:ring-white/50 focus:z-10 backdrop-blur-sm"
+                placeholder="Email"
                 value={formData.username}
                 onChange={handleChange}
               />
             </div>
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                Password
-              </label>
+            <div className="relative">
               <input
                 id="password"
                 name="password"
                 type="password"
                 required
-                className="mt-1 appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Enter your password"
+                className="appearance-none rounded-xl relative block w-full px-4 py-3 bg-white/10 border-0 placeholder-gray-200 text-white focus:outline-none focus:ring-2 focus:ring-white/50 focus:z-10 backdrop-blur-sm"
+                placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
               />
+              <button
+                type="button"
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-200"
+              >
+                Show
+              </button>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-end">
+            <div className="text-sm">
+              <a href="#" className="font-medium text-white hover:text-gray-200">
+                Forgot Password?
+              </a>
             </div>
           </div>
 
           {error && (
-            <div className="text-red-500 text-sm text-center">
+            <div className="text-red-300 text-sm text-center">
               {error}
             </div>
           )}
@@ -95,10 +103,28 @@ export default function Login() {
           <div>
             <button
               type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="group relative w-full flex justify-center py-3 px-4 rounded-xl text-white text-lg font-semibold bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400"
             >
-              Sign in
+              Sign In
             </button>
+          </div>
+
+          <div className="text-center text-white">
+            <p>Don't have an account? <a href="#" className="text-orange-400 hover:text-orange-300">Sign Up</a></p>
+          </div>
+
+          <div>
+            <button
+              type="button"
+              className="w-full flex items-center justify-center py-3 px-4 rounded-xl text-white bg-white/10 hover:bg-white/20 backdrop-blur-sm"
+            >
+              <span className="mr-2">🔒</span>
+              Sign in with Touch ID
+            </button>
+          </div>
+
+          <div className="text-center text-white/60 text-sm">
+            Version 1.0.0
           </div>
         </form>
       </div>
