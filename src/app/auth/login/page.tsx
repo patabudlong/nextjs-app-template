@@ -1,7 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import ReCAPTCHA from "react-google-recaptcha";
+
+const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || '6LcFIiArAAAAAJGf0NK2hn2GMdSsofWtAp9QVrBj';
+const APP_DOMAIN = process.env.NEXT_PUBLIC_APP_DOMAIN || 'https://your-domain.com';
 
 export default function Login() {
   const router = useRouter();
@@ -10,6 +14,7 @@ export default function Login() {
     password: '',
   });
   const [error, setError] = useState('');
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -19,25 +24,36 @@ export default function Login() {
     }));
   };
 
+  const handleCaptchaChange = (token: string | null) => {
+    setCaptchaToken(token);
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError('');
 
+    if (!captchaToken) {
+      setError('Please complete the reCAPTCHA');
+      return;
+    }
+
     try {
-      // Here you would typically make an API call to your authentication endpoint
+      // Include captchaToken in your API request
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          captchaToken
+        }),
       });
 
       if (!response.ok) {
         throw new Error('Login failed');
       }
 
-      // Redirect to dashboard or home page after successful login
       router.push('/dashboard');
     } catch (err) {
       setError('Invalid username or password');
@@ -45,7 +61,29 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-white space-y-4">
+      {/* Cybersure Box */}
+      <div className="max-w-md w-full p-4 rounded-xl bg-orange-50">
+        <div className="flex items-center space-x-3">
+          <div className="text-teal-500">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+          </div>
+          <div>
+            <div className="text-gray-700 font-semibold">Security Check</div>
+            <div className="text-gray-500 text-sm">Verify you're on our official website:</div>
+            <div className="flex items-center space-x-2 mt-2 bg-white px-3 py-2 rounded-lg shadow-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-teal-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8V7a4 4 0 00-8 0v4" />
+              </svg>
+              <span className="text-gray-700 font-medium">{APP_DOMAIN}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Existing Login Box */}
       <div className="max-w-md w-full space-y-8 p-8 rounded-2xl shadow-lg bg-gradient-to-b from-cyan-400 via-blue-500 to-blue-800">
         <div>
           <h2 className="mt-6 text-center text-3xl font-bold text-white">
@@ -84,6 +122,14 @@ export default function Login() {
                 Show
               </button>
             </div>
+          </div>
+
+          <div className="flex justify-center">
+            <ReCAPTCHA
+              sitekey={RECAPTCHA_SITE_KEY}
+              onChange={handleCaptchaChange}
+              theme="dark"
+            />
           </div>
 
           <div className="flex items-center justify-end">
